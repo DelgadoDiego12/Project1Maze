@@ -1,0 +1,3 @@
+/Users/diego/Downloads/Project1Maze/cmake-build-debug/CMakeFiles/Project1Maze.dir
+/Users/diego/Downloads/Project1Maze/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/diego/Downloads/Project1Maze/cmake-build-debug/CMakeFiles/rebuild_cache.dir
