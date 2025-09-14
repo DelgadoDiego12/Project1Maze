@@ -1,4 +1,4 @@
-Diego Delgado, 008320631, https://github.com/DelgadoDiego12/Project1Maze
+Diego Delgado, 008320631,
 
 All parts of this project belong to me. The only question I asked chatGPT was 
 if my code would work when ran with the specific terminal code. I learned that

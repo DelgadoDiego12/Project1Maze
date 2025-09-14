@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <set>
 #include <stack>
 #include <string>
 #include <tuple>
@@ -10,14 +11,25 @@ public:
     Maze(const std::string& filename) {
         loadFromFile(filename);
     }
-    void print() const {
-        for (const auto& row : grid) {
-            for (int cell : row) {
-                std::cout << cell;
+    void print(const std::vector<std::tuple<int, int>>& path = {}) const {
+        std::set<std::tuple<int, int>> pathSet;
+        for (auto [r,c] : path) {
+            pathSet.insert({r,c});
+        }
+        for (int r = 0; r < (int)grid.size(); ++r) {
+            for(int c = 0; c < (int)grid[r].size(); ++c) {
+                if(grid[r][c] == 1) {
+                    std::cout << "1";
+                } else if (pathSet.count({r,c})) {
+                    std::cout << " ";
+                } else {
+                    std::cout << "0";
+                }
             }
             std::cout << '\n';
         }
     }
+
 
     std::tuple<int, int> findStart() const {
         if(grid.empty() || grid[0].empty()) {
@@ -155,12 +167,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    maze.print();
-
     auto path = maze.findPath();
+
     if(path.empty()) {
+        maze.print();
         std::cout << "No path found\n";
     } else {
+        maze.print(path);
         for (auto [r, c] : path) std::cout << "(" << r << "," << c << ") ";
         std::cout << "\n";
     }
