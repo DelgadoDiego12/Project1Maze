@@ -17,5 +17,5 @@ builds a 2D vector from the input.
 
 When testing my code in clion is works when the input file is in the cmake folder. When
 running it on the terminal making sure the main and input file are in the same place will
-allow it to run correctly. My code will print out the maze in your file and output the path 
-to complete the maze. 
+allow it to run correctly. My code will print output the maze with blanks in place of the path. 
+It will also output the coordinates of the path for readability. 
