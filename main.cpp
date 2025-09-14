@@ -3,6 +3,7 @@
 #include <fstream>
 #include <stack>
 #include <string>
+#include <tuple>
 
 class Maze {
 public:
@@ -18,7 +19,7 @@ public:
         }
     }
 
-    std::tuple<int, int> findStart() {
+    std::tuple<int, int> findStart() const {
         if(grid.empty() || grid[0].empty()) {
             return {-1,-1};
         }
@@ -57,7 +58,7 @@ public:
         return (row == 0 || row == R - 1 || col == 0 || col == C - 1);
     }
 
-    std::vector<std::tuple<int, int>> findPath() {
+    std::vector<std::tuple<int, int>> findPath() const {
         auto [startingRow, startingCol] = findStart();
         if (startingRow == -1 || startingCol == -1) {
             return {};
@@ -102,11 +103,17 @@ public:
         }
         return {};
     }
-private:
-    std::vector<std::vector<int>> grid;
+
+    bool empty() const {
+        return grid.empty() || grid[0].empty();
+    }
 
     void loadFromFile(const std::string& filename) {
         std::ifstream input(filename);
+        if (!input.is_open()) {
+            std::cerr << "Failed to open file " << filename << std::endl;
+            return;
+        }
 
         std::string line;
         while(std::getline(input,line)) {
@@ -121,20 +128,38 @@ private:
             }
         }
     }
+
+private:
+    std::vector<std::vector<int>> grid;
+
+
 };
 
 
 
-int main() {
-    Maze maze("Input.txt");
+int main(int argc, char* argv[]) {
+    std::string fileName;
+
+    if (argc >= 2) {
+        fileName = argv[1];
+    }
+    else {
+        std::cout << "Enter a maze file name: ";
+        std::cin >> fileName;
+    }
+
+    Maze maze(fileName);
+
+    if(maze.empty()) {
+        std::cout << "There is no maze!\n";
+        return 1;
+    }
 
     maze.print();
-    auto [sx, sy] = maze.findStart();
-    std::cout << sx << ' ' << sy << '\n';
 
     auto path = maze.findPath();
     if(path.empty()) {
-        std::cout << 'No path found\n';
+        std::cout << "No path found\n";
     } else {
         for (auto [r, c] : path) std::cout << "(" << r << "," << c << ") ";
         std::cout << "\n";
